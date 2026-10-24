@@ -1,2 +1,3 @@
 # Agritech
-Agritech proyect for UEM
+Agritech project for UEM
+made by alexandru
