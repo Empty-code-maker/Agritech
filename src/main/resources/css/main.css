@@ -1,1 +1,57 @@
-/* Estilos generales de la aplicación. */
+.pantalla-riego {
+    -fx-background-color: #f3f6f1;
+    -fx-font-family: "Arial";
+}
+
+.contenido-riego {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+    -fx-max-width: 420;
+    -fx-padding: 30;
+}
+
+.titulo-pantalla {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #24352a;
+}
+
+.estado-riego {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.estado-activo {
+    -fx-text-fill: #237a3b;
+}
+
+.estado-inactivo {
+    -fx-text-fill: #59645b;
+}
+
+.boton-riego {
+    -fx-min-width: 220px;
+    -fx-min-height: 48px;
+    -fx-background-color: #347a43;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.boton-riego:hover {
+    -fx-background-color: #286536;
+}
+
+.nota-simulacion {
+    -fx-text-fill: #68736a;
+    -fx-font-size: 12px;
+}
+
+.panel-aviso {
+    -fx-background-color: #fff4d6;
+    -fx-background-radius: 8;
+    -fx-padding: 12;
+    -fx-max-width: 360;
+}

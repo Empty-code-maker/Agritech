@@ -1,1 +1,0 @@
-/** Representa una planta registrada. */

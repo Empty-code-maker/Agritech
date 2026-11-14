@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@../css/main.css"
+            styleClass="pantalla-riego">
+    <center>
+        <VBox alignment="CENTER" spacing="22.0" styleClass="contenido-riego">
+            <padding>
+                <Insets top="36.0" right="32.0" bottom="36.0" left="32.0" />
+            </padding>
+            <Label text="Riego" styleClass="titulo-pantalla" />
+            <ComboBox fx:id="selectorPlantas"
+                      promptText="Selecciona una planta"
+                      onAction="#cambiarPlanta"
+                      prefWidth="280.0" />
+            <Label fx:id="etiquetaUmbral" text="Umbral mínimo: —" />
+            <Label fx:id="etiquetaEstado" text="Cargando estado..." styleClass="estado-riego" />
+            <Button fx:id="botonAlternar"
+                    text="Cambiar estado"
+                    onAction="#alternarRiego"
+                    styleClass="boton-riego" />
+            <Label fx:id="etiquetaHumedad" text="Humedad simulada: —" />
+            <VBox fx:id="panelAviso" spacing="8.0" styleClass="panel-aviso">
+                <Label fx:id="etiquetaAviso" text="Sin avisos activos." wrapText="true" />
+                <Button fx:id="botonQuitarAviso"
+                        text="Quitar aviso"
+                        onAction="#quitarAviso" />
+            </VBox>
+            <Label text="Estado simulado; no controla un actuador físico."
+                   wrapText="true"
+                   styleClass="nota-simulacion" />
+        </VBox>
+    </center>
+</BorderPane>

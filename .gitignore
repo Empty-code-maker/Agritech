@@ -4,6 +4,9 @@
 # Maven build output
 /target/
 
+# Local SQLite database
+/datos/
+
 # Log file
 *.log
 
