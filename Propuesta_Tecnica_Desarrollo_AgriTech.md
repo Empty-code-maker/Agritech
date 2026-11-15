@@ -51,8 +51,8 @@ La primera versión será una aplicación de escritorio desarrollada con Java y 
 
 | Elemento | Propuesta | Justificación |
 | --- | --- | --- |
-| Tipo de aplicación Lenguaje | Escritorio Java 21 LTS | Se ajusta al alcance inmediato acordado. Entorno estable para el desarrollo académico. |
-| Interfaz Dependencias | JavaFX + FXML + CSS Maven | Separa estructura visual, controladores y estilos. Facilita configurar y compartir el proyecto. |
+| Tipo de aplicación Lenguaje | Escritorio Java 8 (Azul Zulu JDK FX) | Versión acordada para el proyecto y compatible con JavaFX 8 incluido en el paquete JDK FX. |
+| Interfaz Dependencias | JavaFX 8 + FXML + CSS, Maven | Separa estructura visual, controladores y estilos. |
 | Fuente de datos Persistencia recomendada | Simulador Java SQLite | Permite desarrollar sin hardware conectado. Almacenamiento local sin servidor. |
 | Gráficas Informes | JavaFX Charts CSV primero; PDF después | Representación de series temporales. Prioriza una exportación sencilla y verificable. |
 | Pruebas | JUnit 5 | Validación de lógica y servicios. |
@@ -86,6 +86,8 @@ El alcance actual se centra en construir una aplicación de escritorio que permi
 - Gestión o selección de especies vegetales.
 
 - Comparación de mediciones con rangos orientativos configurados por planta.
+
+- Consulta y cambio manual del estado simulado del riego. No acciona hardware.
 
 - Generación de alertas cuando se superen o incumplan umbrales.
 
@@ -125,16 +127,16 @@ Se propone una arquitectura modular con separación de responsabilidades. La int
 | Servicios | Aplicar reglas y coordinar operaciones. | Autenticación, mediciones, alertas e informes. |
 | --- | --- | --- |
 | Repositorios Persistencia | Definir operaciones de acceso a datos. Implementar almacenamiento. | Guardar mediciones y consultar plantas. SQLite y tablas relacionales. |
-| Simulación | Producir mediciones ficticias. | SensorSimulator. |
+| Simulación | Producir mediciones ficticias. | SimuladorSensor. |
 
 ## 3.1 Flujo de datos
 
 ```
-SensorSimulator
+SimuladorSensor
 ↓
-MeasurementService ──→ AlertService
+MedidasService ──→ AlertasService
 ↓
-MeasurementRepository
+MedidasRepository
 ↓
 SQLite
 ↑
@@ -194,15 +196,15 @@ La siguiente estructura es una propuesta. No es necesario crear todos los archiv
 
 | Clase | Responsabilidad |
 | --- | --- |
-| Main LoginController | Punto de entrada de JavaFX. Validar formulario y solicitar autenticación. |
-| MainController Measurement | Gestionar navegación y contenedor principal. Representar una medición ambiental. |
-| MeasurementService SensorSimulator | Validar, consultar y coordinar el registro de mediciones. Generar valores de sensores de demostración. |
-| MeasurementRepository SQLiteMeasurementRepository | Definir operaciones para guardar y consultar mediciones. Implementar operaciones de mediciones con SQLite. |
-| AlertService ReportService | Evaluar umbrales y generar avisos. Preparar y exportar datos de informes. |
+| AplicacionAgriTech AccesoController | Punto de entrada de JavaFX. Validar formulario y solicitar autenticación. |
+| VentanaPrincipalController Medida | Gestionar navegación y contenedor principal. Representar una medición ambiental. |
+| MedidasService SimuladorSensor | Validar, consultar y coordinar el registro de mediciones. Generar valores de sensores de demostración. |
+| MedidasRepository SQLiteMedidasRepository | Definir operaciones para guardar y consultar mediciones. Implementar operaciones de mediciones con SQLite. |
+| AlertasService InformesService | Evaluar umbrales y generar avisos. Preparar y exportar datos de informes. |
 
 ## 6. Modelo de datos
 
-Se propone un modelo inicial con cinco entidades. Los campos podrán ajustarse al concretar las reglas de negocio y el diseño definitivo de la base de datos.
+Se propone un modelo inicial con cinco entidades de cultivo y una entidad adicional para el estado simulado del riego. Los campos podrán ajustarse al concretar las reglas de negocio y el diseño definitivo de la base de datos.
 
 | Entidad | Campos principales | Uso |
 | --- | --- | --- |
@@ -212,10 +214,10 @@ Se propone un modelo inicial con cinco entidades. Los campos podrán ajustarse a
 
 ## AGRITECH | PROPUESTA TÉCNICA DE DESARROLLO
 
-| User Measurement | id, username, passwordHash, email id, temperature, soilHumidity, airHumidity, luminosity, timestamp | Identidad y autenticación. Registro de cada lectura. |
+| Usuario Medida | id, username, passwordHash, email id, temperature, soilHumidity, airHumidity, luminosity, timestamp | Identidad y autenticación. Registro de cada lectura. |
 | --- | --- | --- |
-| Plant PlantThreshold | id, name, description, imagePath id, plantId, minSoilHumidity, maxSoilHumidity, minTemperature, maxTemperature | Catálogo de especies. Rangos configurables por especie. |
-| Alert | id, type, message, severity, timestamp, resolved Avisos generados por reglas. |   |
+| Planta UmbralPlanta | id, name, description, imagePath id, plantId, minSoilHumidity, maxSoilHumidity, minTemperature, maxTemperature | Catálogo de especies. Rangos configurables por especie. |
+| Alerta | id, type, message, severity, timestamp, resolved Avisos generados por reglas. |   |
 
 ## 6.1 Consideraciones del modelo
 
@@ -229,6 +231,18 @@ Se propone un modelo inicial con cinco entidades. Los campos podrán ajustarse a
 
 - Si se incorpora más de un huerto o dispositivo, convendrá añadir identificadores de huerto y dispositivo a las mediciones.
 
+## 6.2 Estado de riego inicial
+
+La primera pantalla de riego representa un único sistema de riego simulado. Su interfaz muestra únicamente el estado actual y una acción para activarlo o desactivarlo. No se conecta a un actuador ni afirma que el riego físico haya cambiado.
+
+| Entidad | Campos | Persistencia y alcance |
+| --- | --- | --- |
+| EstadoRiego | activo, fechaHoraUltimoCambio | Una fila única en SQLite. `activo` solo admite activo o inactivo; `fechaHoraUltimoCambio` puede ser nulo antes del primer cambio. |
+
+El estado no se asocia a `Planta`: las plantas representan especies y sus umbrales, mientras que este estado describe el control simulado del huerto completo. Si el sistema evoluciona a varios huertos o zonas, se deberá introducir una entidad de instalación o zona de riego y asociar a ella cada estado. Si se necesita auditar todos los cambios, se añadirá una tabla de eventos; el modelo inicial conserva solo el estado actual y la fecha del último cambio.
+
+La base local se guarda en `datos/agritech.db`, dentro de la raíz del proyecto. La carpeta `/datos/` está excluida de Git para que los datos de ejecución no se añadan a los commits. Si existe la ubicación anterior `%USERPROFILE%\.agritech\agritech.db`, la aplicación la copia automáticamente cuando crea la nueva base.
+
 ## PENDIENTE DE DEFINICIÓN
 
 La información disponible no determina si la aplicación gestionará un único huerto o varios, ni si habrá varios usuarios con permisos diferentes. Conviene decidirlo antes de cerrar el esquema SQL.
@@ -237,7 +251,7 @@ La información disponible no determina si la aplicación gestionará un único 
 
 ## 7.1 Simulador
 
-SensorSimulator generará mediciones ficticias para probar la aplicación sin hardware. Se recomienda evitar valores totalmente aleatorios en cada ciclo: las variables deben evolucionar progresivamente para que las gráficas representen escenarios comprensibles.
+SimuladorSensor generará mediciones ficticias para probar la aplicación sin hardware. Se recomienda evitar valores totalmente aleatorios en cada ciclo: las variables deben evolucionar progresivamente para que las gráficas representen escenarios comprensibles.
 
 | Escenario | Comportamiento simulado | Validación |
 | --- | --- | --- |
@@ -248,11 +262,11 @@ Como ejemplo de demostración, se puede configurar una actualización cada cinco
 
 ## 7.2 Persistencia
 
-Cada medición generada se enviará a MeasurementService, que validará los datos y solicitará su almacenamiento a MeasurementRepository. La implementación SQLite conservará los registros para consultarlos después de cerrar y volver a abrir la aplicación.
+Cada medición generada se enviará a MedidasService, que validará los datos y solicitará su almacenamiento a MedidasRepository. La implementación SQLite conservará los registros para consultarlos después de cerrar y volver a abrir la aplicación.
 
 ```
-SensorSimulator → MeasurementService → MeasurementRepository → SQLite
-└→ AlertService
+SimuladorSensor → MedidasService → MedidasRepository → SQLite
+└→ AlertasService
 ```
 
 
@@ -272,7 +286,7 @@ La fuente de datos debe quedar desacoplada de las vistas. En una evolución post
 
 ## 8.1 Orden recomendado
 
-La secuencia prioriza primero una aplicación ejecutable y navegable, después la persistencia y el flujo de datos, y finalmente las funcionalidades de análisis y exportación. No se recomienda desarrollar gráficas con datos fijos antes de definir Measurement y la consulta de mediciones.
+La secuencia prioriza primero una aplicación ejecutable y navegable, después la persistencia y el flujo de datos, y finalmente las funcionalidades de análisis y exportación. No se recomienda desarrollar gráficas con datos fijos antes de definir Medida y la consulta de mediciones.
 
 ## 9. Dependencias y configuración Maven
 
@@ -292,7 +306,7 @@ La aplicación de escritorio es una primera implementación de la capa de presen
 
 | Arquitectura global | Primera aplicación de escritorio |
 | --- | --- |
-| ESP32 y sensores físicos Wi-Fi y MQTT / Mosquitto | SensorSimulator genera mediciones ficticias. No se implementan en la primera versión. |
+| ESP32 y sensores físicos Wi-Fi y MQTT / Mosquitto | SimuladorSensor genera mediciones ficticias. No se implementan en la primera versión. |
 | FastAPI InfluxDB | La lógica inicial reside en servicios Java. SQLite se propone como almacenamiento local. |
 | Grafana / visualización | La visualización se realiza con JavaFX. |
 
