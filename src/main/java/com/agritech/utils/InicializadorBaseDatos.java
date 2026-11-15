@@ -47,6 +47,12 @@ public final class InicializadorBaseDatos {
                 + "motivo_cierre TEXT NULL CHECK (motivo_cierre IN ('RECUPERADA', 'DESCARTADA') OR motivo_cierre IS NULL)"
                 + ")";
 
+        String crearTablaUsuario = "CREATE TABLE IF NOT EXISTS usuario ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "nombre_usuario TEXT NOT NULL COLLATE NOCASE UNIQUE, "
+                + "password_hash TEXT NOT NULL"
+                + ")";
+
         try (Connection conexion = ConexionSQLite.obtenerConexion();
              Statement sentencia = conexion.createStatement()) {
             sentencia.execute(crearTablaRiego);
@@ -54,6 +60,7 @@ public final class InicializadorBaseDatos {
             sentencia.execute(crearTablaUmbral);
             sentencia.execute(crearTablaMedida);
             sentencia.execute(crearTablaAlerta);
+            sentencia.execute(crearTablaUsuario);
             sentencia.execute("CREATE INDEX IF NOT EXISTS indice_medida_planta_fecha "
                     + "ON medida (planta_id, fecha_hora)");
             sentencia.execute("CREATE INDEX IF NOT EXISTS indice_alerta_planta_cierre "
