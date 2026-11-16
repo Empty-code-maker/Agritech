@@ -157,11 +157,14 @@ public class RiegoController {
         }
     }
 
-    private void iniciarEscenario() {
-
+    public void detenerSimulacion() {
         if (lineaTiempo != null) {
             lineaTiempo.stop();
         }
+    }
+
+    private void iniciarEscenario() {
+        detenerSimulacion();
 
         Planta planta = selectorPlantas.getValue();
 

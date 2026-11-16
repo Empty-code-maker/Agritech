@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="panelHuerto">
+    <fx:define>
+        <ToggleGroup fx:id="menuSecciones"/>
+        <TabPane fx:id="pestanasHuerto" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <Tab fx:id="pestanaRiego" text="Riego"/>
+                <Tab fx:id="pestanaPlantas" text="Plantas y umbrales"/>
+            </tabs>
+        </TabPane>
+    </fx:define>
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="18" styleClass="barra-superior">
+            <Label text="AgriTech · Mi huerto" styleClass="logo"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Label text="Sistema local" styleClass="estado-sistema"/>
+            <Label fx:id="etiquetaUsuario" minWidth="0" maxWidth="180"/>
+            <Button fx:id="botonInformes" text="Informes" onAction="#abrirInformes" styleClass="boton-menu"/>
+            <Button fx:id="botonSalir" text="Cerrar sesión" onAction="#cerrarSesion" styleClass="boton-secundario"/>
+        </HBox>
+    </top>
+    <left>
+        <VBox spacing="8" styleClass="menu-lateral">
+            <ToggleButton fx:id="botonDashboard" text="Dashboard" toggleGroup="$menuSecciones"
+                          maxWidth="Infinity" onAction="#mostrarDashboard" styleClass="opcion-menu"/>
+            <ToggleButton fx:id="botonMonitorizacion" text="Monitorización" toggleGroup="$menuSecciones"
+                          maxWidth="Infinity" onAction="#mostrarMonitorizacion" styleClass="opcion-menu"/>
+            <ToggleButton fx:id="botonHistorial" text="Histórico" toggleGroup="$menuSecciones"
+                          maxWidth="Infinity" onAction="#mostrarHistorial" styleClass="opcion-menu"/>
+            <ToggleButton fx:id="botonMisPlantas" text="Mis plantas" toggleGroup="$menuSecciones"
+                          maxWidth="Infinity" onAction="#mostrarMisPlantas" styleClass="opcion-menu"/>
+        </VBox>
+    </left>
+    <center>
+        <VBox spacing="20" styleClass="contenido-panel">
+            <Label fx:id="etiquetaSeccion" styleClass="titulo-seccion"/>
+            <StackPane fx:id="contenidoPanel" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </center>
+</BorderPane>

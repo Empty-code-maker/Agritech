@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Preguntas frecuentes de la portada, accesibles antes de iniciar sesión. -->
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="vistaFaq"
+            stylesheets="@../css/faq.css" styleClass="pagina-faq">
+    <center>
+        <ScrollPane fx:id="contenidoFaq" fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-faq">
+            <content>
+                <VBox alignment="TOP_CENTER" styleClass="contenido-faq">
+                    <VBox spacing="28" maxWidth="900">
+                        <VBox spacing="12" alignment="TOP_LEFT">
+                            <Label text="AYUDA" styleClass="etiqueta-verde"/>
+                            <Label text="Preguntas frecuentes" wrapText="true" styleClass="titulo-faq"/>
+                            <Label text="Resuelve tus dudas sobre el acceso, las plantas y el funcionamiento de AgriTech. Selecciona una pregunta para ver su respuesta."
+                                   wrapText="true" maxWidth="640" styleClass="introduccion-faq"/>
+                        </VBox>
+
+                        <!-- Primeros pasos y acceso a las secciones actuales. -->
+                        <VBox spacing="12">
+                            <Label text="Primeros pasos" styleClass="categoria-faq"/>
+                            <VBox fx:id="preguntasInicio" styleClass="preguntas-faq">
+                                <TitledPane fx:id="preguntaAgriTech" text="¿Qué es AgriTech?" expanded="false">
+                                    <content>
+                                        <Label text="AgriTech es una aplicación de escritorio para organizar tus plantas, configurar sus umbrales de humedad y consultar el estado del riego. La versión actual utiliza lecturas simuladas para explorar su funcionamiento."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane text="¿Cómo empiezo a utilizar la aplicación?" expanded="false">
+                                    <content>
+                                        <Label text="Pulsa Iniciar sesión en la pantalla inicial, completa el nombre y la contraseña y entra a la ventana principal. En el menú lateral, selecciona Mis plantas para añadir plantas o abrir la pestaña Riego."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane text="¿Necesito tener una cuenta registrada?" expanded="false">
+                                    <content>
+                                        <Label text="Por ahora no necesitas registrarte. Puedes entrar con cualquier nombre y contraseña, siempre que ambos campos estén completos. La contraseña no se guarda."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane text="¿Necesito Internet o sensores físicos?" expanded="false">
+                                    <content>
+                                        <Label text="Una vez instalada, puedes utilizar la aplicación y sus datos locales sin conexión a Internet. Para esta versión no necesitas conectar sensores: las lecturas se generan de forma simulada en el ordenador."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane text="¿Qué puedo encontrar en el menú lateral?" expanded="false">
+                                    <content>
+                                        <Label text="El menú incluye Dashboard, Monitorización, Histórico y Mis plantas. Las tres primeras secciones todavía están vacías. En Mis plantas ya puedes gestionar plantas y sus umbrales, consultar la humedad simulada y cambiar el estado del riego."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                            </VBox>
+                        </VBox>
+
+                        <!-- Gestión de plantas y control del riego existente. -->
+                        <VBox spacing="12">
+                            <Label text="Mis plantas y riego" styleClass="categoria-faq"/>
+                            <VBox styleClass="preguntas-faq">
+                                <TitledPane text="¿Cómo añado una planta?" expanded="false">
+                                    <content>
+                                        <Label text="Entra en Mis plantas y abre Plantas y umbrales. Pulsa Nueva planta, escribe el nombre y la humedad mínima y después pulsa Añadir planta. La planta aparecerá en la lista y en el selector de la pestaña Riego."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane text="¿Cómo cambio el nombre o el umbral de una planta?" expanded="false">
+                                    <content>
+                                        <Label text="Selecciona la planta en la lista de Plantas y umbrales, modifica el nombre o la humedad mínima y pulsa Guardar cambios. El umbral actualizado se aplicará a las siguientes lecturas simuladas de esa planta."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane text="¿Qué significa la humedad mínima?" expanded="false">
+                                    <content>
+                                        <Label text="Es el porcentaje de humedad del suelo que has establecido como mínimo para una planta. Cuando una lectura queda por debajo de ese valor, la aplicación puede mostrar un aviso de humedad baja. El valor debe ser mayor que 0 y como máximo 100."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane text="¿El botón de riego activa una bomba real?" expanded="false">
+                                    <content>
+                                        <Label text="En la versión actual, Activar riego y Desactivar riego cambian el estado simulado dentro de la aplicación. No están conectados a una bomba ni a un actuador físico."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                            </VBox>
+                        </VBox>
+
+                        <!-- Origen de las lecturas y comportamiento de los avisos. -->
+                        <VBox spacing="12">
+                            <Label text="Lecturas y avisos" styleClass="categoria-faq"/>
+                            <VBox styleClass="preguntas-faq">
+                                <TitledPane text="¿De dónde salen las lecturas de humedad?" expanded="false">
+                                    <content>
+                                        <Label text="Las genera el simulador de la aplicación y se actualizan aproximadamente cada cinco segundos mientras la sesión está abierta. Sirven para probar los estados y avisos del huerto; no son mediciones de una planta real."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane text="¿Por qué aparece un aviso de humedad baja?" expanded="false">
+                                    <content>
+                                        <Label text="Aparece cuando la humedad simulada de la planta seleccionada es inferior al mínimo que has configurado. Puedes consultar ambos valores en la pestaña Riego. El aviso se cierra cuando la humedad vuelve a alcanzar el umbral o cuando lo retiras manualmente."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane text="¿Qué ocurre si pulso Quitar aviso?" expanded="false">
+                                    <content>
+                                        <Label text="Se cierra el aviso actual. Si las siguientes lecturas siguen por debajo del umbral, puede aparecer un nuevo aviso después del intervalo de espera. Quitar el aviso no modifica la humedad ni el estado del riego."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                            </VBox>
+                        </VBox>
+
+                        <!-- Persistencia local, exportación y salida de la aplicación. -->
+                        <VBox spacing="12">
+                            <Label text="Datos y sesión" styleClass="categoria-faq"/>
+                            <VBox styleClass="preguntas-faq">
+                                <TitledPane text="¿Se conservan mis plantas al cerrar la aplicación?" expanded="false">
+                                    <content>
+                                        <Label text="Sí. Las plantas, sus umbrales, las lecturas, las alertas y el estado del riego se guardan de forma local en este ordenador. Cerrar sesión o cerrar la ventana no borra esos datos."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane text="¿Qué incluye el informe PDF?" expanded="false">
+                                    <content>
+                                        <Label text="Desde Informes puedes pulsar Generar PDF y elegir dónde guardarlo. Actualmente se exporta un documento inicial con el título del informe; todavía no incorpora las mediciones del huerto."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                                <TitledPane text="¿Cómo cierro sesión y vuelvo al inicio?" expanded="false">
+                                    <content>
+                                        <Label text="Pulsa Cerrar sesión en la cabecera de la ventana principal. Volverás a la pantalla inicial y se detendrá la generación de lecturas. Tus plantas y los datos guardados se conservarán para la próxima vez que entres."
+                                               wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
+                                    </content>
+                                </TitledPane>
+                            </VBox>
+                        </VBox>
+                    </VBox>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
