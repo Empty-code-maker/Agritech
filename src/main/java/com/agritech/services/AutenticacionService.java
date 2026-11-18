@@ -75,4 +75,38 @@ public class AutenticacionService {
     public Usuario getUsuarioActual() {
         return usuarioActual;
     }
+
+
+    /**
+     * Registra un nuevo usuario.
+     */
+    public boolean registrarUsuario(String nombreUsuario, String password) {
+
+        if (nombreUsuario == null || nombreUsuario.trim().isEmpty()
+                || password == null || password.isEmpty()) {
+            return false;
+        }
+
+        String nombre = nombreUsuario.trim();
+
+        // Comprobamos si el nombre de usuario ya existe.
+        Optional<Usuario> resultado =
+                usuarioRepository.buscarPorNombreUsuario(nombre);
+
+        if (resultado.isPresent()) {
+            return false;
+        }
+
+        // Generamos el hash de la contraseña.
+        String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
+
+        Usuario usuario = new Usuario(0, nombre, passwordHash);
+
+        // Guardamos el usuario en SQLite.
+        usuarioRepository.guardar(usuario);
+
+        return true;
+    }
+
+
 }

@@ -11,5 +11,6 @@ public interface UsuarioRepository {
     Optional<Usuario> buscarPorNombreUsuario(String nombreUsuario);
 
     void guardar(Usuario usuario);
+
 }
 
