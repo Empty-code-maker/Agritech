@@ -21,6 +21,9 @@ import com.agritech.services.PlantasService;
 import com.agritech.simulation.SimuladorSensor;
 import com.agritech.utils.InicializadorBaseDatos;
 
+
+import com.agritech.controllers.VentanaPrincipalController;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -43,6 +46,14 @@ public class AplicacionAgriTech extends Application {
         Parent vistaRiego = cargadorRiego.load();
         controladorRiego.inicializarPantalla();
 
+        // Cargamos la ventana principal de AgriTech
+        FXMLLoader cargadorInicio = new FXMLLoader(
+                AplicacionAgriTech.class.getResource("/fxml/main.fxml")
+        );
+
+        Parent vistaInicio = cargadorInicio.load();
+
+
         FXMLLoader cargadorPlantas = new FXMLLoader(AplicacionAgriTech.class.getResource("/fxml/plantas.fxml"));
         PlantaController controladorPlantas = new PlantaController(servicioPlantas,
                 controladorRiego::refrescarPlantas);
@@ -50,15 +61,21 @@ public class AplicacionAgriTech extends Application {
         Parent vistaPlantas = cargadorPlantas.load();
         controladorPlantas.inicializarPantalla();
 
-        Tab ventanaRiego = new Tab("Riego", vistaRiego);
-        ventanaRiego.setClosable(false);
-        Tab ventanaPlantas = new Tab("Plantas y umbrales", vistaPlantas);
-        ventanaPlantas.setClosable(false);
-        TabPane ventanas = new TabPane();
-        ventanas.getTabs().addAll(ventanaRiego, ventanaPlantas);
 
-        escenario.setTitle("AgriTech — Riego");
-        escenario.setScene(new Scene(ventanas, 680, 540));
+        // Creamos la pestaña de inicio
+        // Obtenemos el controlador de nuestra ventana principal
+        VentanaPrincipalController controladorInicio =
+                cargadorInicio.getController();
+
+        // Conectamos los botones con las pantallas existentes
+        controladorInicio.configurarNavegacion(
+                () -> controladorInicio.mostrarVista(vistaRiego),
+                () -> controladorInicio.mostrarVista(vistaPlantas)
+        );
+
+        // Mostramos nuestra ventana principal
+        escenario.setTitle("AgriTech");
+        escenario.setScene(new Scene(vistaInicio, 1100, 700));
         escenario.show();
     }
 

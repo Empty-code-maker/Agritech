@@ -1,1 +1,195 @@
-<!-- Contenedor principal y navegación de la aplicación. -->
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="mainLayout"
+            prefWidth="1100" prefHeight="650"
+            stylesheets="@../css/main.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.agritech.controllers.VentanaPrincipalController">
+    <!-- BARRA SUPERIOR -->
+    <top>
+        <HBox alignment="CENTER_LEFT"
+              spacing="15"
+              styleClass="barra-superior">
+
+            <Label text="AgriTech"
+                   styleClass="logo"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Volvemos a la pantalla principal -->
+            <Button text="Inicio"
+                    styleClass="boton-menu"
+                    onAction="#abrirInicio"/>
+
+
+            <Button text="Características"
+                    styleClass="boton-menu"
+                    onAction="#mostrarCaracteristicas"/>
+
+            <Button text="Cómo funciona"
+                    styleClass="boton-menu"
+                    onAction="#mostrarFuncionamiento"/>
+
+            <!-- Acceso a las funcionalidades del huerto -->
+            <Button text="Riego"
+                    styleClass="boton-menu"
+                    onAction="#abrirRiego"/>
+
+            <Button text="Plantas"
+                    styleClass="boton-menu"
+                    onAction="#abrirPlantas"/>
+
+
+
+            <Button text="FAQ"
+                    styleClass="boton-menu"
+                    onAction="#mostrarFaq"/>
+
+
+            <Button text="Informes"
+                    styleClass="boton-menu"
+                    onAction="#abrirInformes"/>
+
+
+            <Button text="Iniciar sesión"
+                    styleClass="boton-menu"
+                    onAction="#abrirLogin"/>
+
+
+
+        </HBox>
+    </top>
+    <center>
+        <StackPane fx:id="contentHost">
+
+            <BorderPane fx:id="homeView">
+
+
+
+                <!-- CONTENIDO PRINCIPAL -->
+                <center>
+                    <HBox alignment="CENTER"
+                          spacing="40"
+                          styleClass="contenido-principal">
+
+                        <!-- ZONA IZQUIERDA -->
+                        <VBox alignment="CENTER_LEFT"
+                              spacing="14"
+                              prefWidth="470">
+
+                            <Label text="Smart Farming IoT"
+                                   styleClass="etiqueta-verde"/>
+
+                            <Label text="Tu huerto inteligente,"
+                                   styleClass="titulo"/>
+
+                            <Label text="conectado y"
+                                   styleClass="titulo-verde"/>
+
+                            <Label text="automatizado"
+                                   styleClass="titulo-verde"/>
+
+                            <Label
+                                    text="Monitoriza y cuida tus cultivos desde cualquier lugar con nuestra plataforma de agricultura doméstica inteligente."
+                                    wrapText="true"
+                                    styleClass="descripcion"/>
+
+                            <!-- BOTONES -->
+
+                            <!-- Acceso al vídeo informativo -->
+                            <HBox spacing="12">
+
+                                <Button text="Ver vídeo"
+                                        styleClass="boton-secundario"
+                                        onAction="#verVideo"/>
+
+                            </HBox>
+
+
+                            <!-- ESTADISTICAS -->
+                            <HBox spacing="32"
+                                  styleClass="estadisticas">
+
+                                <VBox spacing="4">
+                                    <Label text="10k+"
+                                           styleClass="numero"/>
+                                    <Label text="Usuarios activos"
+                                           styleClass="texto-pequeno"/>
+                                </VBox>
+
+                                <VBox spacing="4">
+                                    <Label text="50k+"
+                                           styleClass="numero"/>
+                                    <Label text="Cultivos monitorizados"
+                                           styleClass="texto-pequeno"/>
+                                </VBox>
+
+                                <VBox spacing="4">
+                                    <Label text="4.9/5"
+                                           styleClass="numero"/>
+                                    <Label text="Valoración media"
+                                           styleClass="texto-pequeno"/>
+                                </VBox>
+
+                            </HBox>
+
+                        </VBox>
+
+
+
+                        <!-- ZONA DERECHA: fotografía del huerto -->
+                        <StackPane prefWidth="380"
+                                   prefHeight="375"
+                                   styleClass="marco-imagen">
+
+                            <!-- Fotografía -->
+                            <ImageView fitWidth="340"
+                                       fitHeight="300"
+                                       preserveRatio="true"
+                                       smooth="true">
+
+                                <image>
+                                    <Image url="@../images/huerto.png"/>
+                                </image>
+
+                            </ImageView>
+
+                            <!-- Información en la esquina inferior -->
+                            <VBox alignment="CENTER_LEFT"
+                                  spacing="4"
+                                  maxWidth="200"
+                                  styleClass="etiqueta-estado"
+                                  StackPane.alignment="BOTTOM_RIGHT">
+
+                                <Label text="Huerto en seguimiento"
+                                       styleClass="estado-titulo"/>
+
+                                <Label text="Datos de demostración"
+                                       styleClass="estado-descripcion"/>
+
+                            </VBox>
+
+                        </StackPane>
+
+
+                    </HBox>
+                </center>
+
+            </BorderPane>
+
+        </StackPane>
+    </center>
+
+</BorderPane>
