@@ -2,7 +2,7 @@
 
 package com.agritech.controllers;
 
-import com.agritech.services.ReportService;
+import com.agritech.services.InformesService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
@@ -10,11 +10,11 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 
-public class ReportController {
+public class InformesController {
 
 
     // Referencia al controlador principal
-    private MainController mainController;
+    private VentanaPrincipalController ventanaPrincipalController;
 
 
     @FXML
@@ -39,7 +39,7 @@ public class ReportController {
 
         try {
             // Pedimos al servicio que genere el documento
-            ReportService servicio = new ReportService();
+            InformesService servicio = new InformesService();
             servicio.generar(archivo);
 
             new Alert(Alert.AlertType.INFORMATION,
@@ -52,15 +52,15 @@ public class ReportController {
     }
 
             // Recibimos el controlador principal
-            public void setMainController(MainController mainController) {
-                this.mainController = mainController;
+            public void setVentanaPrincipalController(VentanaPrincipalController ventanaPrincipalController) {
+                this.ventanaPrincipalController = ventanaPrincipalController;
             }
 
             // Volvemos a la pantalla de inicio
             @FXML
             private void volverInicio() {
-                if (mainController != null) {
-                    mainController.navigateToView("inicio");
+                if (ventanaPrincipalController != null) {
+                    ventanaPrincipalController.navigateToView("inicio");
                 }
             }
 

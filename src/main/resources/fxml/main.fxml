@@ -16,56 +16,67 @@
             stylesheets="@../css/main.css"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.agritech.controllers.MainController">
+            fx:controller="com.agritech.controllers.VentanaPrincipalController">
+    <!-- BARRA SUPERIOR -->
+    <top>
+        <HBox alignment="CENTER_LEFT"
+              spacing="15"
+              styleClass="barra-superior">
 
+            <Label text="AgriTech"
+                   styleClass="logo"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- Volvemos a la pantalla principal -->
+            <Button text="Inicio"
+                    styleClass="boton-menu"
+                    onAction="#abrirInicio"/>
+
+
+            <Button text="Características"
+                    styleClass="boton-menu"
+                    onAction="#mostrarCaracteristicas"/>
+
+            <Button text="Cómo funciona"
+                    styleClass="boton-menu"
+                    onAction="#mostrarFuncionamiento"/>
+
+            <!-- Acceso a las funcionalidades del huerto -->
+            <Button text="Riego"
+                    styleClass="boton-menu"
+                    onAction="#abrirRiego"/>
+
+            <Button text="Plantas"
+                    styleClass="boton-menu"
+                    onAction="#abrirPlantas"/>
+
+
+
+            <Button text="FAQ"
+                    styleClass="boton-menu"
+                    onAction="#mostrarFaq"/>
+
+
+            <Button text="Informes"
+                    styleClass="boton-menu"
+                    onAction="#abrirInformes"/>
+
+
+            <Button text="Iniciar sesión"
+                    styleClass="boton-menu"
+                    onAction="#abrirLogin"/>
+
+
+
+        </HBox>
+    </top>
     <center>
         <StackPane fx:id="contentHost">
 
             <BorderPane fx:id="homeView">
 
-                <!-- BARRA SUPERIOR -->
-                <top>
-                    <HBox alignment="CENTER_LEFT"
-                          spacing="15"
-                          styleClass="barra-superior">
 
-                        <Label text="AgriTech"
-                               styleClass="logo"/>
-
-                        <Region HBox.hgrow="ALWAYS"/>
-
-                        <Button text="Características"
-                                styleClass="boton-menu"
-                                onAction="#mostrarCaracteristicas"/>
-
-                        <Button text="Cómo funciona"
-                                styleClass="boton-menu"
-                                onAction="#mostrarFuncionamiento"/>
-
-                        <Button text="Precios"
-                                styleClass="boton-menu"
-                                onAction="#mostrarPrecios"/>
-
-                        <Button text="FAQ"
-                                styleClass="boton-menu"
-                                onAction="#mostrarFaq"/>
-
-
-                        <Button text="Informes"
-                                styleClass="boton-menu"
-                                onAction="#abrirInformes"/>
-
-
-                        <Button text="Iniciar sesión"
-                                styleClass="boton-menu"
-                                onAction="#abrirLogin"/>
-
-                        <Button text="Probar gratis"
-                                styleClass="boton-verde"
-                                onAction="#abrirLogin"/>
-
-                    </HBox>
-                </top>
 
                 <!-- CONTENIDO PRINCIPAL -->
                 <center>
@@ -96,17 +107,16 @@
                                     styleClass="descripcion"/>
 
                             <!-- BOTONES -->
-                            <HBox spacing="12">
 
-                                <Button text="Probar Demo Gratuita"
-                                        styleClass="boton-verde"
-                                        onAction="#abrirLogin"/>
+                            <!-- Acceso al vídeo informativo -->
+                            <HBox spacing="12">
 
                                 <Button text="Ver vídeo"
                                         styleClass="boton-secundario"
                                         onAction="#verVideo"/>
 
                             </HBox>
+
 
                             <!-- ESTADISTICAS -->
                             <HBox spacing="32"

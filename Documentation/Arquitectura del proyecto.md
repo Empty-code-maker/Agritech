@@ -38,48 +38,42 @@ public class LecturaAmbiental {
         this.luminosidad = luminosidad;
     }
 
-    public LocalDateTime getFechaHora() {
+    public LocalDateTime obtenerFechaHora() {
         return fechaHora;
     }
 
-    public double getHumedadSuelo() {
+    public double obtenerHumedadSuelo() {
         return humedadSuelo;
     }
 
-    public double getTemperatura() {
+    public double obtenerTemperatura() {
         return temperatura;
     }
 
-    public double getLuminosidad() {
+    public double obtenerLuminosidad() {
         return luminosidad;
     }
 }
 ```
 
-El estado del riego también puede ser un modelo:
-
 ```java
 import java.time.LocalDateTime;
 
-public class EstadoRiego {
-    private boolean activo;
-    private LocalDateTime ultimaActivacion;
+public final class EstadoRiego {
+    private final boolean activo;
+    private final LocalDateTime fechaHoraUltimoCambio;
 
-    public boolean isActivo() {
+    public EstadoRiego(boolean activo, LocalDateTime fechaHoraUltimoCambio) {
+        this.activo = activo;
+        this.fechaHoraUltimoCambio = fechaHoraUltimoCambio;
+    }
+
+    public boolean estaActivo() {
         return activo;
     }
 
-    public LocalDateTime getUltimaActivacion() {
-        return ultimaActivacion;
-    }
-
-    public void activar() {
-        activo = true;
-        ultimaActivacion = LocalDateTime.now();
-    }
-
-    public void desactivar() {
-        activo = false;
+    public LocalDateTime obtenerFechaHoraUltimoCambio() {
+        return fechaHoraUltimoCambio;
     }
 }
 ```
@@ -89,8 +83,18 @@ Cada servicio se ocupa de una función concreta:
 
 ```java
 public class RiegoService {
-    public void alternarRiego() {
-        // Solicita al sistema o dispositivo cambiar el estado del riego.
+    private final RiegoRepository repositorioRiego;
+
+    public RiegoService(RiegoRepository repositorioRiego) {
+        this.repositorioRiego = repositorioRiego;
+    }
+
+    public EstadoRiego alternarEstado() throws SQLException {
+        EstadoRiego estadoActual = repositorioRiego.obtenerEstadoActual();
+        EstadoRiego estadoActualizado = new EstadoRiego(
+                !estadoActual.estaActivo(), LocalDateTime.now());
+        repositorioRiego.guardarEstado(estadoActualizado);
+        return estadoActualizado;
     }
 }
 ```
@@ -98,7 +102,7 @@ public class RiegoService {
 ```java
 public class AlertasService {
     public String evaluar(LecturaAmbiental lectura) {
-        if (lectura.humedadSuelo() < 30) {
+        if (lectura.obtenerHumedadSuelo() < 30) {
             return "La humedad del suelo es baja";
         }
         return "";
@@ -112,23 +116,23 @@ El controlador conecta los elementos JavaFX con esos servicios:
 
 ```java
 public class PanelController {
-    @FXML private Label estadoRiegoLabel;
-    @FXML private Label alertaLabel;
-    @FXML private Button riegoButton;
+    @FXML private Label etiquetaEstado;
+    @FXML private Label etiquetaAlerta;
+    @FXML private Button botonAlternar;
 
-    private final RiegoService riegoService = new RiegoService();
-    private final AlertasService alertasService = new AlertasService();
+    private final RiegoService servicioRiego;
+    private final AlertasService servicioAlertas = new AlertasService();
 
-    @FXML
-    private void initialize() {
-        riegoButton.setOnAction(event -> {
-            riegoService.alternarRiego();
-            estadoRiegoLabel.setText("Se solicitó cambiar el estado del riego");
-        });
+    public PanelController(RiegoService servicioRiego) {
+        this.servicioRiego = servicioRiego;
+    }
+
+    private void alternarRiego() {
+        // El controlador delega el cambio al servicio y actualiza la etiqueta.
     }
 
     public void mostrarLectura(LecturaAmbiental lectura) {
-        alertaLabel.setText(alertasService.evaluar(lectura));
+        etiquetaAlerta.setText(servicioAlertas.evaluar(lectura));
     }
 }
 ```
@@ -144,21 +148,19 @@ En ese caso, el controlador define `alternarRiego()` y desde ese método llama a
 ### ¿Como se vería en los ficheros? 
 
 ```text
-src/main/java/
-  model/
-    LecturaAmbiental.java
-    EstadoRiego.java
-  service/
-    LecturasService.java
-    RiegoService.java
-    ExportacionService.java
-    AlertasService.java
-  controller/
-    PanelController.java
+src/main/java/com/agritech/
+  AplicacionAgriTech.java
+  controllers/RiegoController.java
+  models/EstadoRiego.java
+  services/RiegoService.java
+  repositories/RiegoRepository.java
+  repositories/sqlite/SQLiteRiegoRepository.java
+  repositories/sqlite/ConexionSQLite.java
+  utils/InicializadorBaseDatos.java
 
 src/main/resources/
-  views/
-    panel.fxml
+  fxml/riego.fxml
+  css/main.css
 ```
 
 ## ¿Cómo se añade una función?
