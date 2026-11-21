@@ -18,6 +18,13 @@
 
     <dependencies>
         <!-- JavaFX Controls y FXML están incluidos en el JDK 8 con JavaFX. -->
+        <!-- Exportación PDF incorporada desde la rama de Alexandru. -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>3.0.8</version>
+        </dependency>
+
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
