@@ -1,0 +1,84 @@
+.pantalla-acceso {
+    -fx-background-color: #f3f6f1;
+    -fx-padding: 30;
+}
+
+.tarjeta-acceso {
+    -fx-background-color: white;
+    -fx-background-radius: 14;
+    -fx-padding: 30;
+}
+
+.titulo-acceso {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #24352a;
+}
+
+.error-acceso {
+    -fx-text-fill: #a52a2a;
+}
+
+.tarjeta-acceso .text-field {
+    -fx-pref-height: 38;
+}
+
+.menu-lateral {
+    -fx-pref-width: 210;
+    -fx-min-width: 210;
+    -fx-padding: 24 16;
+    -fx-background-color: white;
+    -fx-border-color: #e3e9e3;
+    -fx-border-width: 0 1 0 0;
+}
+
+.opcion-menu {
+    -fx-alignment: CENTER_LEFT;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-border-radius: 8;
+    -fx-padding: 13 16;
+    -fx-font-size: 14px;
+    -fx-text-fill: #435548;
+    -fx-cursor: hand;
+}
+
+.opcion-menu:hover {
+    -fx-background-color: #f3f6f1;
+}
+
+.opcion-menu:selected {
+    -fx-background-color: #e3f2e6;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1b642c;
+}
+
+.opcion-menu:focused {
+    -fx-border-color: #27863b;
+}
+
+.contenido-panel {
+    -fx-padding: 24;
+    -fx-background-color: #f3f6f1;
+}
+
+.titulo-seccion {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #24352a;
+}
+
+.vista-vacia {
+    -fx-background-color: white;
+    -fx-background-radius: 12;
+}
+
+.estado-sistema {
+    -fx-background-color: #e3f2e6;
+    -fx-background-radius: 12;
+    -fx-padding: 5 10;
+    -fx-font-size: 12px;
+    -fx-text-fill: #1b642c;
+}

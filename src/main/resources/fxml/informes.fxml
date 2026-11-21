@@ -1,1 +1,11 @@
-<!-- Vista de informes. -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Exportación de informes; la navegación se mantiene en la ventana contenedora. -->
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="vistaInformes" alignment="CENTER" spacing="18"
+      styleClass="seccion-informacion">
+    <Label text="Informes de AgriTech" styleClass="seccion-titulo"/>
+    <Button text="Generar PDF" onAction="#generarPdf" styleClass="boton-verde"/>
+</VBox>
