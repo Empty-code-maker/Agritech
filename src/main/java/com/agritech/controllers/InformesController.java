@@ -5,6 +5,7 @@ package com.agritech.controllers;
 import com.agritech.services.InformesService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;

@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import java.awt.Desktop;
 import java.net.URI;
 
@@ -22,12 +23,6 @@ import java.net.URL;
 
 public class VentanaPrincipalController {
 
-
-
-
-
-
-
         @FXML
         private BorderPane mainLayout;
 
@@ -35,12 +30,11 @@ public class VentanaPrincipalController {
         @FXML
         private StackPane contentHost;
 
-
-
         @FXML
         private BorderPane homeView;
 
-
+        @FXML
+        private HBox barraPortada;
 
         // Acciones para abrir las pantallas de riego y plantas
         private Runnable navegarRiego;
@@ -59,7 +53,6 @@ public class VentanaPrincipalController {
             contentHost.getChildren().setAll(vista);
         }
 
-
     // Abrimos la pantalla de riego
         @FXML
         private void abrirRiego() {
@@ -75,7 +68,6 @@ public class VentanaPrincipalController {
                 navegarPlantas.run();
             }
         }
-
 
     @FXML
     private void mostrarCaracteristicas() {
@@ -311,89 +303,12 @@ public class VentanaPrincipalController {
     }
 
     public void cerrarSesion() {
-        if (controladorPanel != null) {
-            controladorPanel.detenerSimulacion();
-            controladorPanel = null;
-            panel = null;
-        }
         mostrarInicio();
     }
-        @FXML
-        private void mostrarFuncionamiento() {
-        // Título de la sección
-        Label titulo = new Label("Cómo funciona AgriTech");
-        titulo.getStyleClass().add("seccion-titulo");
 
-        // Explicamos las funciones de la aplicación
-        Label descripcion = new Label(
-                "1. Plantas: permite gestionar las plantas y sus umbrales.\n\n" +
-                        "2. Riego: muestra la humedad simulada y permite activar el riego.\n\n" +
-                        "3. Informes: permite generar y guardar archivos PDF.\n\n" +
-                        "4. Datos: utilizamos SQLite y prepararemos la conexión con una API."
-        );
-
-        descripcion.setWrapText(true);
-        descripcion.setMaxWidth(650);
-        descripcion.getStyleClass().add("seccion-texto");
-
-// Botón para descargar la guía en PDF
-        Button descargar = new Button("Descargar guía PDF");
-        descargar.getStyleClass().add("boton-verde");
-
-// Al pulsarlo, guardamos el documento
-        descargar.setOnAction(event -> guardarGuiaPdf());
-
-
-        // Botón para regresar a la pantalla principal
-        Button volver = new Button("Volver al inicio");
-        volver.getStyleClass().add("boton-verde");
-        volver.setOnAction(event -> navigateToView("inicio"));
-
-        // Organizamos los elementos verticalmente
-
-        VBox seccion = new VBox(25, titulo, descripcion, descargar, volver);
-
-        seccion.setAlignment(Pos.CENTER_LEFT);
-        seccion.getStyleClass().add("seccion-informacion");
-
-        // Mostramos el contenido sin abrir otra ventana
-        contentHost.getChildren().setAll(seccion);
-        }
-
-
-    // Permite elegir dónde guardar la guía PDF
-    private void guardarGuiaPdf() {
-
-        FileChooser selector = new FileChooser();
-        selector.setTitle("Guardar guía de AgriTech");
-        selector.setInitialFileName("Guia_AgriTech.pdf");
-
-        // Solo permitimos seleccionar archivos PDF
-        selector.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf")
-        );
-
-        // Abrimos la ventana para elegir el destino
-        File archivo = selector.showSaveDialog(
-                mainLayout.getScene().getWindow()
-        );
-
-        // Si el usuario cancela, no hacemos nada
-        if (archivo == null) {
-            return;
-        }
-
-        try {
-            // Utilizamos el servicio que ya hemos programado
-            InformesService servicio = new InformesService();
-            servicio.generarGuia(archivo);
-
-            mostrarMensaje("Guía PDF", "La guía se ha guardado correctamente.");
-
-        } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR,
-                    "No se pudo guardar la guía PDF.").showAndWait();
-        }
+    @FXML
+    private void abrirInformes() {
+        navigateToView("informes");
     }
 
     private void mostrarInformacion(String opcion, String titulo, String... parrafos) {
@@ -414,7 +329,6 @@ public class VentanaPrincipalController {
     }
 
     private void mostrarPaginaPublica(Parent vista, String opcion) {
-        limpiarAcceso();
         mostrarBarraPortada(true);
         for (javafx.scene.Node nodo : barraPortada.getChildren()) {
             if (nodo instanceof Button) {
@@ -433,11 +347,13 @@ public class VentanaPrincipalController {
         barraPortada.setManaged(visible);
     }
 
-    private void limpiarAcceso() {
-        if (controladorAcceso != null) {
-            controladorAcceso.limpiarContrasena();
-            controladorAcceso = null;
-        }
+    private void mostrarMensaje(String titulo, String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.initOwner(contentHost.getScene().getWindow());
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 
     private void mostrarError(String mensaje, IOException excepcion) {

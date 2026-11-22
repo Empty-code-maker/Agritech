@@ -19,7 +19,8 @@
             fx:controller="com.agritech.controllers.VentanaPrincipalController">
     <!-- BARRA SUPERIOR -->
     <top>
-        <HBox alignment="CENTER_LEFT"
+        <HBox fx:id="barraPortada"
+              alignment="CENTER_LEFT"
               spacing="15"
               styleClass="barra-superior">
 
