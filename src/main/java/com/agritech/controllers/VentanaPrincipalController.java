@@ -306,32 +306,146 @@ public class VentanaPrincipalController {
 
     // Abre la pantalla de informes
     @FXML
-    private void abrirInformes() {
-        navigateToView("informes");
+    private void mostrarInicio() {
+        mostrarPaginaPublica(homeView, null);
     }
 
-
-    // Permite regresar a la pantalla de inicio
-    public void logout() {
-
-        navigateToView("inicio");
+    public void cerrarSesion() {
+        if (controladorPanel != null) {
+            controladorPanel.detenerSimulacion();
+            controladorPanel = null;
+            panel = null;
+        }
+        mostrarInicio();
     }
+        @FXML
+        private void mostrarFuncionamiento() {
+        // Título de la sección
+        Label titulo = new Label("Cómo funciona AgriTech");
+        titulo.getStyleClass().add("seccion-titulo");
+
+        // Explicamos las funciones de la aplicación
+        Label descripcion = new Label(
+                "1. Plantas: permite gestionar las plantas y sus umbrales.\n\n" +
+                        "2. Riego: muestra la humedad simulada y permite activar el riego.\n\n" +
+                        "3. Informes: permite generar y guardar archivos PDF.\n\n" +
+                        "4. Datos: utilizamos SQLite y prepararemos la conexión con una API."
+        );
+
+        descripcion.setWrapText(true);
+        descripcion.setMaxWidth(650);
+        descripcion.getStyleClass().add("seccion-texto");
+
+// Botón para descargar la guía en PDF
+        Button descargar = new Button("Descargar guía PDF");
+        descargar.getStyleClass().add("boton-verde");
+
+// Al pulsarlo, guardamos el documento
+        descargar.setOnAction(event -> guardarGuiaPdf());
 
 
+        // Botón para regresar a la pantalla principal
+        Button volver = new Button("Volver al inicio");
+        volver.getStyleClass().add("boton-verde");
+        volver.setOnAction(event -> navigateToView("inicio"));
 
-    private void mostrarMensaje(
-                String titulo,
-                String mensaje) {
+        // Organizamos los elementos verticalmente
 
-            Alert alerta = new Alert(
-                    Alert.AlertType.INFORMATION
-            );
+        VBox seccion = new VBox(25, titulo, descripcion, descargar, volver);
 
-            alerta.setTitle(titulo);
-            alerta.setHeaderText(null);
-            alerta.setContentText(mensaje);
-            alerta.showAndWait();
+        seccion.setAlignment(Pos.CENTER_LEFT);
+        seccion.getStyleClass().add("seccion-informacion");
+
+        // Mostramos el contenido sin abrir otra ventana
+        contentHost.getChildren().setAll(seccion);
+        }
+
+
+    // Permite elegir dónde guardar la guía PDF
+    private void guardarGuiaPdf() {
+
+        FileChooser selector = new FileChooser();
+        selector.setTitle("Guardar guía de AgriTech");
+        selector.setInitialFileName("Guia_AgriTech.pdf");
+
+        // Solo permitimos seleccionar archivos PDF
+        selector.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Archivos PDF", "*.pdf")
+        );
+
+        // Abrimos la ventana para elegir el destino
+        File archivo = selector.showSaveDialog(
+                mainLayout.getScene().getWindow()
+        );
+
+        // Si el usuario cancela, no hacemos nada
+        if (archivo == null) {
+            return;
+        }
+
+        try {
+            // Utilizamos el servicio que ya hemos programado
+            InformesService servicio = new InformesService();
+            servicio.generarGuia(archivo);
+
+            mostrarMensaje("Guía PDF", "La guía se ha guardado correctamente.");
+
+        } catch (IOException e) {
+            new Alert(Alert.AlertType.ERROR,
+                    "No se pudo guardar la guía PDF.").showAndWait();
         }
     }
 
+    private void mostrarInformacion(String opcion, String titulo, String... parrafos) {
+        VBox seccion = new VBox(20);
+        seccion.setAlignment(Pos.CENTER_LEFT);
+        seccion.getStyleClass().add("seccion-informacion");
+        Label encabezado = new Label(titulo);
+        encabezado.getStyleClass().add("seccion-titulo");
+        seccion.getChildren().add(encabezado);
+        for (String parrafo : parrafos) {
+            Label texto = new Label(parrafo);
+            texto.setWrapText(true);
+            texto.setMaxWidth(760);
+            texto.getStyleClass().add("seccion-texto");
+            seccion.getChildren().add(texto);
+        }
+        mostrarPaginaPublica(seccion, opcion);
+    }
 
+    private void mostrarPaginaPublica(Parent vista, String opcion) {
+        limpiarAcceso();
+        mostrarBarraPortada(true);
+        for (javafx.scene.Node nodo : barraPortada.getChildren()) {
+            if (nodo instanceof Button) {
+                Button boton = (Button) nodo;
+                boton.getStyleClass().remove("pagina-activa");
+                if (boton.getText().equals(opcion)) {
+                    boton.getStyleClass().add("pagina-activa");
+                }
+            }
+        }
+        contentHost.getChildren().setAll(vista);
+    }
+
+    private void mostrarBarraPortada(boolean visible) {
+        barraPortada.setVisible(visible);
+        barraPortada.setManaged(visible);
+    }
+
+    private void limpiarAcceso() {
+        if (controladorAcceso != null) {
+            controladorAcceso.limpiarContrasena();
+            controladorAcceso = null;
+        }
+    }
+
+    private void mostrarError(String mensaje, IOException excepcion) {
+        Alert alerta = new Alert(Alert.AlertType.ERROR);
+        alerta.initOwner(contentHost.getScene().getWindow());
+        alerta.setTitle("No se pudo abrir la pantalla");
+        alerta.setHeaderText(mensaje);
+        alerta.setContentText(excepcion.getMessage());
+        alerta.showAndWait();
+    }
+}
