@@ -101,6 +101,10 @@ public class PanelController {
         contenidoPanel.getChildren().setAll(informes);
     }
 
+    public void volverDesdeInformes() {
+        mostrarDashboard();
+    }
+
     public void detenerSimulacion() {
         controladorRiego.detenerSimulacion();
     }

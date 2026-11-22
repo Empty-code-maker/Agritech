@@ -125,7 +125,7 @@
                                 </TitledPane>
                                 <TitledPane text="¿Qué incluye el informe PDF?" expanded="false">
                                     <content>
-                                        <Label text="Desde Informes puedes pulsar Generar PDF y elegir dónde guardarlo. Actualmente se exporta un documento inicial con el título del informe; todavía no incorpora las mediciones del huerto."
+                                        <Label text="Desde Informes puedes generar un PDF con una descripción de AgriTech, sus funciones y el carácter simulado de la aplicación. El documento no incluye los datos guardados del huerto."
                                                wrapText="true" maxWidth="Infinity" styleClass="respuesta-faq"/>
                                     </content>
                                 </TitledPane>

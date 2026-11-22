@@ -78,8 +78,12 @@ public class VentanaPrincipalController {
 
     @FXML
     private void verVideo() {
-        mostrarInformacion(null, "Vídeo de AgriTech",
-                "Todavía no hay un vídeo disponible. Puedes recorrer la aplicación desde Iniciar sesión.");
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.initOwner(contentHost.getScene().getWindow());
+        alerta.setTitle("Vídeo");
+        alerta.setHeaderText(null);
+        alerta.setContentText("Todavía no hay un vídeo asociado a la demo.");
+        alerta.showAndWait();
     }
 
     @FXML
@@ -121,16 +125,24 @@ public class VentanaPrincipalController {
     private void abrirInformes() {
         try {
             FXMLLoader cargador = new FXMLLoader(getClass().getResource("/fxml/informes.fxml"));
-            cargador.setController(new InformesController());
+            cargador.setController(new InformesController(this::volverDesdeInformes));
             Parent informes = cargador.load();
             if (controladorPanel == null) {
-                mostrarPaginaPublica(informes, "Informes");
+                mostrarPaginaPublica(informes, "PDF");
             } else {
                 // Dentro de la sesión se mantienen la cabecera y el menú lateral del huerto.
                 controladorPanel.mostrarInformes(informes);
             }
         } catch (IOException excepcion) {
             mostrarError("No se pudo abrir Informes.", excepcion);
+        }
+    }
+
+    private void volverDesdeInformes() {
+        if (controladorPanel == null) {
+            mostrarInicio();
+        } else {
+            controladorPanel.volverDesdeInformes();
         }
     }
 
