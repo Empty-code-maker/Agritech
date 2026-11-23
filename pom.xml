@@ -18,7 +18,7 @@
 
     <dependencies>
         <!-- JavaFX Controls y FXML están incluidos en el JDK 8 con JavaFX. -->
-        <!-- Exportación PDF incorporada desde la rama de Alexandru. -->
+        <!-- Biblioteca para generar documentos PDF -->
         <dependency>
             <groupId>org.apache.pdfbox</groupId>
             <artifactId>pdfbox</artifactId>
@@ -51,22 +51,29 @@
         </dependency>
     </dependencies>
 
+
+
     <build>
         <plugins>
+
+            <!-- Ejecuta la aplicación JavaFX -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <mainClass>com.agritech.AplicacionAgriTech</mainClass>
                 </configuration>
             </plugin>
+
+            <!-- Ejecuta los tests del proyecto -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
             </plugin>
+
+            <!-- Permite ejecutar la clase principal -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -75,6 +82,9 @@
                     <mainClass>com.agritech.AplicacionAgriTech</mainClass>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
+
+
 </project>

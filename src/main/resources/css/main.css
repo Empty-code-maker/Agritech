@@ -1,4 +1,168 @@
+
+/* Estilos generales de la aplicación. */
+
+/* FONDO GENERAL */
+
+.root {
+    -fx-background-color: white;
+    -fx-font-family: "Arial";
+}
+
+/* BARRA DE NAVEGACION */
+
+.barra-superior {
+    -fx-padding: 18 28 18 28;
+    -fx-background-color: white;
+    -fx-border-color: #eeeeee;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* LOGOTIPO */
+
+.logo {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #27863b;
+}
+
+/* BOTONES DEL MENU */
+
+.boton-menu {
+    -fx-background-color: transparent;
+    -fx-text-fill: #333333;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+.boton-menu:hover {
+    -fx-text-fill: #27863b;
+}
+
+/* BOTONES VERDES */
+
+.boton-verde {
+    -fx-background-color: #27863b;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-padding: 11 16 11 16;
+    -fx-cursor: hand;
+}
+
+.boton-verde:hover {
+    -fx-background-color: #1b642c;
+}
+
+/* BOTON SECUNDARIO */
+
+.boton-secundario {
+    -fx-background-color: #f5f5f5;
+    -fx-text-fill: #333333;
+    -fx-background-radius: 8;
+    -fx-padding: 11 16 11 16;
+    -fx-cursor: hand;
+}
+
+/* CONTENIDO CENTRAL */
+
+.contenido-principal {
+    -fx-padding: 35 40 35 40;
+    -fx-background-color: white;
+}
+
+/* ETIQUETA SUPERIOR */
+
+.etiqueta-verde {
+    -fx-background-color: #e3f2e6;
+    -fx-text-fill: #27863b;
+    -fx-font-size: 12px;
+    -fx-padding: 5 10 5 10;
+    -fx-background-radius: 12;
+}
+
+/* TITULOS */
+
+.titulo {
+    -fx-font-size: 29px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #181818;
+}
+
+.titulo-verde {
+    -fx-font-size: 29px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #27863b;
+}
+
+/* TEXTO DESCRIPTIVO */
+
+.descripcion {
+    -fx-font-size: 13px;
+    -fx-text-fill: #666666;
+    -fx-line-spacing: 4px;
+}
+
+/* ESTADISTICAS */
+
+.estadisticas {
+    -fx-padding: 20 0 0 0;
+}
+
+.numero {
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #222222;
+}
+
+.texto-pequeno {
+    -fx-font-size: 11px;
+    -fx-text-fill: #777777;
+}
+
+/* IMAGEN DEL HUERTO */
+
+.marco-imagen {
+    -fx-background-color: #e5f1ec;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
+}
+
+.texto-imagen {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #27863b;
+}
+
+/* Sección informativa de AgriTech */
+.seccion-informacion {
+    -fx-padding: 60;
+    -fx-background-color: white;
+}
+
+/* Título de la sección */
+.seccion-titulo {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #27863b;
+}
+
+/* Descripción de las características */
+.seccion-texto {
+    -fx-font-size: 15px;
+    -fx-text-fill: #444444;
+    -fx-line-spacing: 5px;
+}
+
+
+/* Aviso sobre los datos de prueba */
+.seccion-aviso {
+    -fx-font-size: 12px;
+    -fx-text-fill: #777777;
+}
+
+/* Estilos de la pantalla de riego */
 .pantalla-riego {
+
     -fx-background-color: #f3f6f1;
     -fx-font-family: "Arial";
 }
@@ -54,4 +218,5 @@
     -fx-background-radius: 8;
     -fx-padding: 12;
     -fx-max-width: 360;
+
 }
