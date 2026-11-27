@@ -16,13 +16,32 @@ public final class InicializadorBaseDatos {
 
     public static void inicializar() throws SQLException {
         String crearTablaRiego = "CREATE TABLE IF NOT EXISTS estado_riego ("
-                + "id INTEGER PRIMARY KEY CHECK (id = 1), "
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "huerto_id INTEGER UNIQUE REFERENCES huerto(id), "
                 + "activo INTEGER NOT NULL CHECK (activo IN (0, 1)), "
+                + "modo TEXT CHECK (modo IN ('MANUAL', 'AUTOMATICO')), "
                 + "fecha_hora_ultimo_cambio TEXT NULL"
                 + ")";
+
+        String crearTablaHuerto = "CREATE TABLE IF NOT EXISTS huerto ("
+                + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "usuario_id INTEGER NOT NULL REFERENCES usuario(id), "
+                + "nombre TEXT NOT NULL, "
+                + "ubicacion TEXT NOT NULL, "
+                + "tipo_ubicacion TEXT NOT NULL, "
+                + "area_total_m2 REAL NOT NULL CHECK (area_total_m2 > 0), "
+                + "descripcion TEXT, "
+                + "fecha_alta TEXT NOT NULL"
+                + ")";
+
         String crearTablaPlanta = "CREATE TABLE IF NOT EXISTS planta ("
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "nombre TEXT NOT NULL COLLATE NOCASE UNIQUE"
+                + "nombre TEXT NOT NULL COLLATE NOCASE, "
+                + "huerto_id INTEGER REFERENCES huerto(id), "
+                + "area_m2 REAL CHECK (area_m2 > 0), "
+                + "especie TEXT, "
+                + "ubicacion_zona TEXT, "
+                + "fecha_alta TEXT"
                 + ")";
         String crearTablaUmbral = "CREATE TABLE IF NOT EXISTS umbral_planta ("
                 + "planta_id INTEGER PRIMARY KEY REFERENCES planta (id) ON DELETE CASCADE, "
@@ -56,6 +75,7 @@ public final class InicializadorBaseDatos {
         try (Connection conexion = ConexionSQLite.obtenerConexion();
              Statement sentencia = conexion.createStatement()) {
             sentencia.execute(crearTablaRiego);
+            sentencia.execute(crearTablaHuerto);
             sentencia.execute(crearTablaPlanta);
             sentencia.execute(crearTablaUmbral);
             sentencia.execute(crearTablaMedida);
